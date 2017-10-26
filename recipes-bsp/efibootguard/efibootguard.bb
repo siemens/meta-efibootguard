@@ -34,11 +34,11 @@ EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-lds-dir=${STAGING_LIBDIR} \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
-FILES_${PN}-tools = "/usr/bin"
+FILES_${PN}-tools = "${bindir}"
 FILES_${PN}-tools-dbg = "/usr/src/debug"
-FILES_${PN}-tools-staticdev = "/usr/lib/lib*.a"
-FILES_${PN}-tools-dev = "/usr/include/*"
-FILES_${PN}-efi = "/usr/lib/efibootguard"
+FILES_${PN}-tools-staticdev = "${libdir}/lib*.a"
+FILES_${PN}-tools-dev = "${includedir}/${BPN}"
+FILES_${PN}-efi = "${libdir}/${BPN}"
 
 do_deploy () {
 	install ${B}/efibootguard*.efi ${DEPLOYDIR}
