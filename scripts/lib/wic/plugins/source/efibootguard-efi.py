@@ -29,12 +29,14 @@
 import os
 import os.path
 import shutil
+import logging
 
-from wic import msger
 from wic.pluginbase import SourcePlugin
-from wic.utils.misc import get_custom_config
-from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
-                              BOOTDD_EXTRA_SPACE
+from wic.engine import get_custom_config
+from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
+                     BOOTDD_EXTRA_SPACE
+
+msger = logging.getLogger('wic')
 
 class EfibootguardEFIPlugin(SourcePlugin):
     """
@@ -57,8 +59,6 @@ class EfibootguardEFIPlugin(SourcePlugin):
             bootimg_dir = get_bitbake_var("HDDDIR")
             if not bootimg_dir:
                 msger.error("HDDDIR not set, exiting\n")
-            # just so the result notes display it
-            creator.set_bootimg_dir(bootimg_dir)
 
         staging_kernel_dir = kernel_dir
 
