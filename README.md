@@ -14,13 +14,13 @@ Archive:
 
 Tested with:
 
-poky (rocko): 16e22f3e37788afb83044f5089d24187d70094bd
+poky (pyro): 5e552100b0a093976b633c57dd36259710d55873
 https://git.yoctoproject.org/git/poky
 
-meta-intel: aa246ba9855d35d454ddcf041578310cbaa90250
+meta-intel: 4cd63f57820ce0e4ebd598251d3a13b5a4b9b791
 https://git.yoctoproject.org/git/meta-intel
 
-meta-openembedded: 29a4983d5a4462d8e7b9abcd55bfb3013f578fdd
+meta-openembedded: dfbdd28d206a74bf264c2f7ee0f7b3e5af587796
 http://git.openembedded.org/meta-openembedded
 
 ## project integration ##
