@@ -13,11 +13,12 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 SRC_URI = "git://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "e3263ab8132b8d0be3b1e5513afc4a93f287e9e5"
+SRCREV = "c9b3a5260108706b7d98f4ae91c8463f5356f115"
+PV = "0.2"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "gnu-efi pciutils zlib"
+DEPENDS = "gnu-efi pciutils zlib libcheck"
 
 inherit autotools deploy pkgconfig
 
@@ -45,7 +46,7 @@ do_deploy () {
 addtask deploy before do_build after do_compile
 
 BBCLASSEXTEND = "native"
-DEPENDS_class-native = "zlib"
+DEPENDS_class-native = "zlib libcheck"
 
 do_compile_class-native () {
 	oe_runmake bg_setenv
