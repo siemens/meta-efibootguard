@@ -32,8 +32,8 @@ import logging
 
 from wic.pluginbase import SourcePlugin
 from wic.engine import get_custom_config
-from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
-                     BOOTDD_EXTRA_SPACE
+from wic.utils.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
+                           BOOTDD_EXTRA_SPACE
 
 msger = logging.getLogger('wic')
 
