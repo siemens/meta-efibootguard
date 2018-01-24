@@ -31,7 +31,6 @@ PACKAGES = "${PN}-tools \
 
 EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
-                --with-gnuefi-lds-dir=${STAGING_LIBDIR} \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
 FILES_${PN}-tools = "${bindir}"
