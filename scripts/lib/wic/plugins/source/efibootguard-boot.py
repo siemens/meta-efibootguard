@@ -62,7 +62,7 @@ class EfibootguardBootPlugin(SourcePlugin):
 
         cwd = os.getcwd()
         os.chdir(hdddir)
-        config_cmd = 'bg_setenv -f -k "C:%s:bzImage" -a "%s" -r %s -w %s' % \
+        config_cmd = 'bg_setenv -f . -k "C:%s:bzImage" -a "%s" -r %s -w %s' % \
                       (part.label.upper(), \
                        cmdline.strip(), \
                        source_params.get("revision", 1), \
