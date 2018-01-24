@@ -17,7 +17,7 @@ SRCREV = "e3263ab8132b8d0be3b1e5513afc4a93f287e9e5"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "gnu-efi pciutils"
+DEPENDS = "gnu-efi pciutils zlib"
 
 inherit autotools deploy
 
@@ -46,7 +46,7 @@ do_deploy () {
 addtask deploy before do_build after do_compile
 
 BBCLASSEXTEND = "native"
-DEPENDS_class-native = ""
+DEPENDS_class-native = "zlib"
 
 do_compile_class-native () {
 	oe_runmake bg_setenv
