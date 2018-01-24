@@ -70,7 +70,9 @@ python build_efi_cfg() {
 
             make_isodir_cmd = ["mkdir", "-p", isodir]
             p = Popen(make_isodir_cmd)
-
+            (out, err) = p.communicate()
+            if not p.returncode == 0:
+                bb.fatal("Could not create isodir: %s" % isodir)
             os.chdir(isodir)
             p = Popen([bg_setenv_cmd, "--file", "--kernel=vmlinuz", "--watchdog=30"], \
                        stdout=PIPE, stderr=PIPE)
