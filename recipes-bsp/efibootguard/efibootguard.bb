@@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "gnu-efi pciutils zlib"
 
-inherit autotools deploy
+inherit autotools deploy pkgconfig
 
 COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
 
