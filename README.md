@@ -20,17 +20,8 @@ https://git.yoctoproject.org/git/poky
 meta-intel: 6add41510412ca196efb3e4f949d403a8b6f35d7
 https://git.yoctoproject.org/git/meta-intel
 
-meta-intel-iot-middleware: fc8eabfa4fb54802d3f97123b9d2954450175e33
-https://git.yoctoproject.org/git/meta-intel-iot-middleware
-
-meta-nodejs: eec531e97a17bfd406f3bf76dee4057dcf5286a4
-https://github.com/imyller/meta-nodejs
-
 meta-openembedded: fe5c83312de11e80b85680ef237f8acb04b4b26e
 http://git.openembedded.org/meta-openembedded
-
-meta-iot2000: 774746e44ee248306881ffae7f02370025fda77e
-https://github.com/siemens/meta-iot2000
 
 ## project integration ##
 
