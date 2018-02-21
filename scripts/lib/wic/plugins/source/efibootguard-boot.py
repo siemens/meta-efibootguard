@@ -100,6 +100,16 @@ class EfibootguardBootPlugin(SourcePlugin):
         fd.write(part.label.upper().encode("utf-16le"))
         fd.close()
 
+        # Copy the specified initrd to the BOOT partition
+        initrd = source_params.get('initrd')
+
+        if initrd:
+            cp_cmd = "cp %s/%s %s" % (kernel_dir, initrd, hdddir)
+            exec_cmd(cp_cmd, True)
+
+        else:
+            msger.debug("Ignoring missing initrd")
+
         du_cmd = "du -bks %s" % hdddir
         out = exec_cmd(du_cmd)
         blocks = int(out.split()[0])
