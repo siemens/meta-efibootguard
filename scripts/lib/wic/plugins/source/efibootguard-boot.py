@@ -27,7 +27,6 @@
 # Andreas Reichel <andreas.reichel (at] tngtech.com>
 
 import os
-import shutil
 import logging
 
 from wic import WicError
