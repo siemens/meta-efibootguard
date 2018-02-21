@@ -66,8 +66,15 @@ class EfibootguardEFIPlugin(SourcePlugin):
         install_cmd = "install -d %s/EFI/BOOT" % hdddir
         exec_cmd(install_cmd)
 
-        cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (kernel_dir, hdddir)
-        exec_cmd(cp_cmd, True)
+        # Locate & install the efibootguard bootloader properly to the EFI partition
+        # i586 ARCH:    efibootguardia32.efi ---> bootia32.efi
+        # x86_64 ARCH:  efibootguardx64.efi  ---> bootx64.efi
+        for mod in [x for x in os.listdir(kernel_dir) if x.startswith("efibootguard")]:
+            # mod = efibootguardia32.efi or efibootguardx64.efi
+            # efi_image = bootia32.efi or bootx64.efi
+            efi_image = mod.replace('efibootguard', 'boot')
+            cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, efi_image)
+            exec_cmd(cp_cmd, True)
 
         # Calculate the number of extra blocks to be sure that the
         # resulting partition image is of the wanted size
