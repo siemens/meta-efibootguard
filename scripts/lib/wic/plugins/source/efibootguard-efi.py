@@ -55,10 +55,10 @@ class EfibootguardEFIPlugin(SourcePlugin):
         'prepares' the partition to be incorporated into the image.
         In this case, prepare content for an EFI (grub) boot partition.
         """
-        if not bootimg_dir:
-            bootimg_dir = get_bitbake_var("HDDDIR")
-            if not bootimg_dir:
-                msger.error("HDDDIR not set, exiting\n")
+        if not kernel_dir:
+            kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
+            if not kernel_dir:
+                msger.error("DEPLOY_DIR_IMAGE not set, exiting\n")
 
         staging_kernel_dir = kernel_dir
 
@@ -67,7 +67,7 @@ class EfibootguardEFIPlugin(SourcePlugin):
         install_cmd = "install -d %s/EFI/BOOT" % hdddir
         exec_cmd(install_cmd)
 
-        cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (bootimg_dir, hdddir)
+        cp_cmd = "cp %s/EFI/BOOT/* %s/EFI/BOOT" % (kernel_dir, hdddir)
         exec_cmd(cp_cmd, True)
 
         # Calculate the number of extra blocks to be sure that the
