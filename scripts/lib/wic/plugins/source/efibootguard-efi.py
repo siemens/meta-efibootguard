@@ -31,6 +31,7 @@ import os.path
 import shutil
 import logging
 
+from wic import WicError
 from wic.pluginbase import SourcePlugin
 from wic.engine import get_custom_config
 from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
@@ -58,7 +59,7 @@ class EfibootguardEFIPlugin(SourcePlugin):
         if not kernel_dir:
             kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
             if not kernel_dir:
-                msger.error("DEPLOY_DIR_IMAGE not set, exiting\n")
+                raise WicError("DEPLOY_DIR_IMAGE not set, exiting\n")
 
         staging_kernel_dir = kernel_dir
 
