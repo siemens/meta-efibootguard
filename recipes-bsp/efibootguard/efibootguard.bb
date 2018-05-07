@@ -24,10 +24,10 @@ inherit autotools deploy pkgconfig
 
 COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
 
-PACKAGES = "${PN}-tools \
-            ${PN}-tools-dbg \
+PACKAGES = "${PN}-tools-dbg \
             ${PN}-tools-staticdev \
             ${PN}-tools-dev \
+            ${PN}-tools \
             ${PN}-efi"
 
 EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
@@ -35,7 +35,7 @@ EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
 FILES_${PN}-tools = "${bindir}"
-FILES_${PN}-tools-dbg = "/usr/src/debug"
+FILES_${PN}-tools-dbg = "/usr/src/debug ${bindir}/.debug /usr/lib/debug"
 FILES_${PN}-tools-staticdev = "${libdir}/lib*.a"
 FILES_${PN}-tools-dev = "${includedir}/${BPN}"
 FILES_${PN}-efi = "${libdir}/${BPN}"
