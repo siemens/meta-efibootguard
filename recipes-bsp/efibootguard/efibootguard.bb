@@ -28,7 +28,7 @@ PACKAGES = "${PN}-tools-dbg \
             ${PN}-tools-staticdev \
             ${PN}-tools-dev \
             ${PN}-tools \
-            ${PN}-efi"
+            ${PN}"
 
 EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
@@ -38,7 +38,7 @@ FILES_${PN}-tools = "${bindir}"
 FILES_${PN}-tools-dbg = "/usr/src/debug ${bindir}/.debug /usr/lib/debug"
 FILES_${PN}-tools-staticdev = "${libdir}/lib*.a"
 FILES_${PN}-tools-dev = "${includedir}/${BPN}"
-FILES_${PN}-efi = "${libdir}/${BPN}"
+FILES_${PN} = "${libdir}/${BPN}"
 
 do_deploy () {
 	install ${B}/efibootguard*.efi ${DEPLOYDIR}
