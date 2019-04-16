@@ -1,6 +1,6 @@
 # EFI Boot Guard
 #
-# Copyright (c) Siemens AG, 2017
+# Copyright (c) Siemens AG, 2017-2019
 #
 # Authors:
 #   Claudius Heine  <ch@denx.de>
@@ -13,8 +13,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 SRC_URI = "git://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "d2565ce19f34b5bd8dde4480def624cf544f067f"
-PV = "0.4"
+SRCREV = "537d2950368599ddd5f90a6097ab2d1bb2b3017e"
 
 S = "${WORKDIR}/git"
 
@@ -60,4 +59,3 @@ do_install_class-native () {
 
 do_deploy_class-native () {
 }
-
