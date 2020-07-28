@@ -13,7 +13,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 SRC_URI = "git://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "85cae10c9411c52208947d63a2287cfd6e81068a"
+SRCREV = "442e87bafb480ada2b9074f02350a30408d4cf9c"
 
 S = "${WORKDIR}/git"
 
