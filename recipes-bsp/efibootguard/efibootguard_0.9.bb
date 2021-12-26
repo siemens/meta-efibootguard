@@ -12,12 +12,17 @@
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-SRC_URI = "git://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "ac1685aea75fb3e3d16c0c0e4f8261a2edb63536"
+SRC_URI = "git://github.com/siemens/efibootguard.git;protocol=https;branch=master \
+    file://0001-Makefile-Fix-static-tool-build-on-incremental-builds.patch \
+    file://0002-Makefile-Fix-static-tool-build-on-incremental-builds.patch \
+    file://0003-Find-pkg-config-on-cross-compilation.patch \
+    file://0004-configure-libpci-detection-optional.patch \
+"
+SRCREV = "c01324d0da202727eb0744c0f67a78f9c9b65c46"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "gnu-efi pciutils zlib libcheck"
+DEPENDS_class-target = "gnu-efi pciutils zlib libcheck"
 
 inherit autotools deploy pkgconfig
 
@@ -44,8 +49,8 @@ do_deploy () {
 }
 addtask deploy before do_build after do_compile
 
-BBCLASSEXTEND = "native"
 DEPENDS_class-native = "zlib libcheck"
+EXTRA_OECONF_class-native += "--disable-libpci"
 
 do_compile_class-native () {
 	oe_runmake bg_setenv
@@ -59,3 +64,5 @@ do_install_class-native () {
 
 do_deploy_class-native () {
 }
+
+BBCLASSEXTEND = "native"

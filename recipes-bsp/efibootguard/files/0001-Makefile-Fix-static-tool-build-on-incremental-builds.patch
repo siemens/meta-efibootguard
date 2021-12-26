@@ -1,0 +1,41 @@
+From ceaa1e98868ab2f0e5a61d069d4c512adcc5037c Mon Sep 17 00:00:00 2001
+From: Christian Storm <christian.storm@siemens.com>
+Date: Tue, 2 Nov 2021 14:22:54 +0100
+Subject: [PATCH 1/4] Makefile: Fix static tool build on incremental builds
+
+On first build, libtool produces a proper statically linked
+bg_setenv tool which by argv[0] decides whether to printenv
+or setenv.
+
+On subsequent builds, e.g., while incrementally developing,
+libtool *dynamically* links bg_setenv against libebgenv and
+applies "magic" [1,2] to compensate for library paths.
+This breaks the bg_setenv argv[0] logic.
+
+So, state explicitly that bg_setenv is to be linked statically.
+
+[1] https://www.gnu.org/software/libtool/manual/html_node/Linking-executables.html#Linking-executables
+[2] https://autotools.io/libtool/wrappers.html
+
+Signed-off-by: Christian Storm <christian.storm@siemens.com>
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+---
+ Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 3545ae2..2a5f8f8 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -107,7 +107,7 @@ bg_setenv_SOURCES = \
+ 	tools/bg_setenv.c
+ 
+ bg_setenv_CFLAGS = \
+-	$(AM_CFLAGS)
++	$(AM_CFLAGS) -static
+ 
+ bg_setenv_LDADD = \
+ 	-lebgenv \
+-- 
+2.31.1
+

@@ -1,0 +1,46 @@
+From fe24f4cf7b8d84a6c928c2d4ee349a7f3080d602 Mon Sep 17 00:00:00 2001
+From: Christian Storm <christian.storm@siemens.com>
+Date: Tue, 2 Nov 2021 22:11:20 +0100
+Subject: [PATCH 2/4] Makefile: Fix static tool build on incremental builds,
+ again
+
+Quoting [1]:
+"We recommend that you avoid using -l options in LDADD or
+ prog_LDADD when referring to libraries built by your package.
+ Instead, write the file name of the library explicitly as in the
+ above cpio example. Use -l only to list third-party libraries. If
+ you follow this rule, the default value of prog_DEPENDENCIES will
+ list all your local libraries and omit the other ones."
+
+Hence, remove bg_setenv_DEPENDENCIES and explicitly specify
+libebgenv.a in bg_setenv_LDADD.
+
+[1] https://www.gnu.org/software/automake/manual/html_node/Linking.html#Linking
+
+Signed-off-by: Christian Storm <christian.storm@siemens.com>
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+---
+ Makefile.am | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 2a5f8f8..73af2f7 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -110,12 +110,9 @@ bg_setenv_CFLAGS = \
+ 	$(AM_CFLAGS) -static
+ 
+ bg_setenv_LDADD = \
+-	-lebgenv \
++	$(top_builddir)/libebgenv.a \
+ 	-lz
+ 
+-bg_setenv_DEPENDENCIES = \
+-	libebgenv.a
+-
+ install-exec-hook:
+ 	$(AM_V_at)$(LN_S) -f bg_setenv$(EXEEXT) \
+ 		$(DESTDIR)$(bindir)/bg_printenv$(EXEEXT)
+-- 
+2.31.1
+

@@ -1,0 +1,35 @@
+From c810c5e32b2faf35351eaebd7df85d17e2916c56 Mon Sep 17 00:00:00 2001
+From: Bastian Germann <bage@debian.org>
+Date: Tue, 7 Dec 2021 03:54:08 +0100
+Subject: [PATCH 3/4] Find pkg-config on cross compilation
+
+PKG_PROG_PKG_CONFIG sets $PKG_CONFIG to a pkg-config executable.
+Setting it manually via AC_PATH_PROG is superfluous and problematic
+with executable name prefixes. Get rid of the AC_PATH_PROG call.
+
+Signed-off-by: Bastian Germann <bage@debian.org>
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+---
+ configure.ac | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 6dcd386..01a4fdb 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -174,11 +174,10 @@ AC_ARG_WITH([mem-uservars],
+ AC_DEFINE_UNQUOTED([ENV_MEM_USERVARS], [${ENV_MEM_USERVARS}], [Reserved memory for user variables])
+ 
+ dnl pkg-config
+-AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
++PKG_PROG_PKG_CONFIG()
+ if test "x$PKG_CONFIG" = "xno"; then
+ 	AC_MSG_ERROR([You need to install pkg-config])
+ fi
+-PKG_PROG_PKG_CONFIG()
+ PKG_CHECK_MODULES(LIBCHECK, check)
+ PKG_CHECK_MODULES(LIBPCI, libpci)
+ # ------------------------------------------------------------------------------
+-- 
+2.31.1
+
