@@ -52,6 +52,10 @@ addtask deploy before do_build after do_compile
 DEPENDS:class-native = "zlib-native libcheck-native"
 EXTRA_OECONF:class-native += "--disable-libpci"
 
+do_install:append () {
+    rm -f ${D}${libdir}/*.so
+}
+
 do_compile:class-native () {
 	oe_runmake bg_setenv
 }
