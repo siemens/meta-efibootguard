@@ -13,7 +13,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 SRC_URI = "git://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "ac1685aea75fb3e3d16c0c0e4f8261a2edb63536"
+SRCREV = "99435e3d7ac960883c951db151ff3ac3c4088458"
 
 S = "${WORKDIR}/git"
 
@@ -33,19 +33,31 @@ EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
-FILES:${PN}-tools = "${bindir}"
+FILES:${PN}-tools = " \
+    ${bindir} \
+    ${target_datadir}/${BPN}/completion/* \
+"
 FILES:${PN}-tools-dbg = "/usr/src/debug ${bindir}/.debug /usr/lib/debug"
 FILES:${PN}-tools-staticdev = "${libdir}/lib*.a"
-FILES:${PN}-tools-dev = "${includedir}/${BPN}"
-FILES:${PN} = "${libdir}/${BPN}"
+FILES:${PN}-tools-dev = " \
+    ${includedir}/${BPN} \
+    ${libdir}/libebgenv.so \
+"
+FILES:${PN} = " \
+    ${libdir}/${BPN} \
+    ${libdir}/libebgenv-${PV}*.so \
+"
 
 do_deploy () {
 	install ${B}/efibootguard*.efi ${DEPLOYDIR}
 }
 addtask deploy before do_build after do_compile
 
-BBCLASSEXTEND = "native"
-DEPENDS:class-native = "zlib libcheck"
+DEPENDS:class-native = "zlib-native libcheck-native"
+EXTRA_OECONF:class-native = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
+                             --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
+                             --with-gnuefi-lib-dir=${STAGING_LIBDIR} \
+                             --disable-bootloader"
 
 do_compile:class-native () {
 	oe_runmake bg_setenv
@@ -59,3 +71,5 @@ do_install:class-native () {
 
 do_deploy:class-native () {
 }
+
+BBCLASSEXTEND = "native"
