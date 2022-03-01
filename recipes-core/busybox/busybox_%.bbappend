@@ -9,12 +9,12 @@
 # This work is licensed under the terms of the GNU GPL, version 2.
 # See the COPYING.GPLv2 file in the top-level directory.
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += "file://watchdog.cfg \
             file://watchdog.sh"
 
-do_install_append() {
+do_install:append() {
 	install -d "${D}${sysconfdir}/init.d"
 	install -m 0755 "${WORKDIR}/watchdog.sh" "${D}${sysconfdir}/init.d/watchdog.sh"
 	install -d "${D}${sysconfdir}/rcS.d"

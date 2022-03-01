@@ -17,7 +17,7 @@ SRCREV = "ac1685aea75fb3e3d16c0c0e4f8261a2edb63536"
 
 S = "${WORKDIR}/git"
 
-DEPENDS = "gnu-efi pciutils zlib libcheck"
+DEPENDS:class-target = "gnu-efi pciutils zlib libcheck"
 
 inherit autotools deploy pkgconfig
 
@@ -33,11 +33,11 @@ EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
-FILES_${PN}-tools = "${bindir}"
-FILES_${PN}-tools-dbg = "/usr/src/debug ${bindir}/.debug /usr/lib/debug"
-FILES_${PN}-tools-staticdev = "${libdir}/lib*.a"
-FILES_${PN}-tools-dev = "${includedir}/${BPN}"
-FILES_${PN} = "${libdir}/${BPN}"
+FILES:${PN}-tools = "${bindir}"
+FILES:${PN}-tools-dbg = "/usr/src/debug ${bindir}/.debug /usr/lib/debug"
+FILES:${PN}-tools-staticdev = "${libdir}/lib*.a"
+FILES:${PN}-tools-dev = "${includedir}/${BPN}"
+FILES:${PN} = "${libdir}/${BPN}"
 
 do_deploy () {
 	install ${B}/efibootguard*.efi ${DEPLOYDIR}
@@ -45,17 +45,17 @@ do_deploy () {
 addtask deploy before do_build after do_compile
 
 BBCLASSEXTEND = "native"
-DEPENDS_class-native = "zlib libcheck"
+DEPENDS:class-native = "zlib libcheck"
 
-do_compile_class-native () {
+do_compile:class-native () {
 	oe_runmake bg_setenv
 }
 
-do_install_class-native () {
+do_install:class-native () {
 	install -d ${D}${bindir}/
 	install -m755 ${B}/bg_setenv ${D}${bindir}/
 	ln -s bg_setenv ${D}${bindir}/bg_printenv
 }
 
-do_deploy_class-native () {
+do_deploy:class-native () {
 }
