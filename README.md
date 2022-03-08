@@ -4,24 +4,30 @@ A meta-layer for integration of `efibootguard` into a yocto project.
 
 ## Development ##
 
-Mailing list:
+Mailing list:  
 [efibootguard-dev@googlegroups.com](efibootguard-dev@googlegroups.com)
 
-Archive:
+Contribution:  
+- **Signed** patches can be sent to the mailing list.
+- The mailing list is used for "efibootguard" and "meta-efibootguard". Please use for patches the prefix "meta-efibootguard".
+```
+git commit -s
+git send-email --to=efibootguard-dev@googlegroups.com --confirm=always -M -1 --subject-prefix="meta-efibootguard][PATCH"
+```
+
+Archive:  
 [https://www.mail-archive.com/efibootguard-dev@googlegroups.com](https://www.mail-archive.com/efibootguard-dev@googlegroups.com)
 
-## Current status ##
+## status ##
 
-Tested with:
+The current layer is compatible with the following Yocto version:
 
-poky (rocko): 342fbd6a3e57021c8e28b124b3adb241936f3d9d
-https://git.yoctoproject.org/git/poky
-
-meta-intel: 7bf03f7612834142355189c46ccdb4b309acc58a
-https://git.yoctoproject.org/git/meta-intel
-
-meta-openembedded: 8cef6b38e62e6c79ec857510df454cefc868b0df
-http://git.openembedded.org/meta-openembedded
+Version  | Codename  | LTS
+-------- | --------- | ---
+3.5      | Kirkstone | Yes
+3.4      | Honister  | No
+3.3      | Hardknott | No
+3.1      | Dunfell   | Yes
 
 ## project integration ##
 
