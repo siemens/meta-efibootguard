@@ -34,12 +34,12 @@ EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
 FILES_${PN}-tools-bash-completion = " \
-    ${datadir}/${BPN}/completion/bash \
+    ${datadir}/bash-completion \
 "
 RDEPENDS_${PN}-tools-bash-completion = "bash-completion"
 
 FILES_${PN}-tools-zsh-completion = " \
-    ${datadir}/${BPN}/completion/zsh \
+    ${datadir}/zsh/site-functions \
 "
 
 FILES:${PN}-tools = " \
@@ -73,6 +73,24 @@ do_install:class-native () {
 	install -d ${D}${bindir}/
 	install -m755 ${B}/bg_setenv ${D}${bindir}/
 	ln -s bg_setenv ${D}${bindir}/bg_printenv
+}
+
+do_install:append() {
+    # Fix bash-completion path
+    if [ -d ${D}/${datadir}/${BPN}/completion/bash ]; then
+        install -d ${D}/${datadir}/bash-completion/completions
+        mv ${D}/${datadir}/${BPN}/completion/bash/bg_printenv.bash ${D}/${datadir}/bash-completion/completions/bg_printenv
+        mv ${D}/${datadir}/${BPN}/completion/bash/bg_setenv.bash ${D}/${datadir}/bash-completion/completions/bg_setenv
+        rm -rf ${D}/${datadir}/${BPN}/completion/bash
+    fi
+
+    # Fix zsh-completion path
+    if [ -d ${D}/${datadir}/${BPN}/completion/zsh ]; then
+        install -d ${D}/${datadir}/zsh/site-functions
+        mv ${D}/${datadir}/${BPN}/completion/zsh/_bg_printenv ${D}/${datadir}/zsh/site-functions/_bg_printenv
+        mv ${D}/${datadir}/${BPN}/completion/zsh/_bg_setenv ${D}/${datadir}/zsh/site-functions/_bg_setenv
+        rm -rf ${D}/${datadir}/${BPN}/completion/zsh
+    fi
 }
 
 do_deploy:class-native () {
