@@ -23,28 +23,34 @@ inherit autotools deploy pkgconfig
 
 COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
 
-PACKAGES = "${PN}-tools-dbg \
-            ${PN}-tools-staticdev \
-            ${PN}-tools-dev \
-            ${PN}-tools \
-            ${PN}"
+PACKAGES =+ " \
+    ${PN}-tools \
+    ${PN}-tools-bash-completion \
+    ${PN}-tools-zsh-completion \
+"
 
 EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
+FILES_${PN}-tools-bash-completion = " \
+    ${datadir}/${BPN}/completion/bash \
+"
+RDEPENDS_${PN}-tools-bash-completion = "bash-completion"
+
+FILES_${PN}-tools-zsh-completion = " \
+    ${datadir}/${BPN}/completion/zsh \
+"
+
 FILES:${PN}-tools = " \
     ${bindir} \
-    ${target_datadir}/${BPN}/completion/* \
 "
-FILES:${PN}-tools-dbg = "/usr/src/debug ${bindir}/.debug /usr/lib/debug"
-FILES:${PN}-tools-staticdev = "${libdir}/lib*.a"
-FILES:${PN}-tools-dev = " \
+FILES:${PN}-staticdev = "${libdir}/lib*.a"
+FILES:${PN}-dev = " \
     ${includedir}/${BPN} \
     ${libdir}/libebgenv.so \
 "
-FILES:${PN} = " \
-    ${libdir}/${BPN} \
+FILES:${PN} += " \
     ${libdir}/libebgenv-${PV}*.so \
 "
 
