@@ -33,12 +33,12 @@ EXTRA_OECONF = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                 --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
                 --with-gnuefi-lib-dir=${STAGING_LIBDIR}"
 
-FILES_${PN}-tools-bash-completion = " \
+FILES:${PN}-tools-bash-completion = " \
     ${datadir}/bash-completion \
 "
-RDEPENDS_${PN}-tools-bash-completion = "bash-completion"
+RDEPENDS:${PN}-tools-bash-completion = "bash-completion"
 
-FILES_${PN}-tools-zsh-completion = " \
+FILES:${PN}-tools-zsh-completion = " \
     ${datadir}/zsh/site-functions \
 "
 
