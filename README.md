@@ -24,9 +24,6 @@ The current layer is compatible with the following Yocto version:
 
 Version  | Codename  | LTS
 -------- | --------- | ---
-3.5      | Kirkstone | Yes
-3.4      | Honister  | No
-3.3      | Hardknott | No
 3.1      | Dunfell   | Yes
 
 ## project integration ##
