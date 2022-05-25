@@ -9,7 +9,7 @@
 # This work is licensed under the terms of the GNU GPL, version 2.
 # See the COPYING.GPLv2 file in the top-level directory.
 
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 SUMMARY = "A bootloader based on UEFI"
 
