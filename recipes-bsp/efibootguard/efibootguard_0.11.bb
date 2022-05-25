@@ -9,11 +9,12 @@
 # This work is licensed under the terms of the GNU GPL, version 2.
 # See the COPYING.GPLv2 file in the top-level directory.
 
-LICENSE = "GPLv2"
+LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+SUMMARY = "A bootloader based on UEFI"
 
 SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "99435e3d7ac960883c951db151ff3ac3c4088458"
+SRCREV = "eda1b987f8ca41d64b46f53347a8c89c6fc03c31"
 
 S = "${WORKDIR}/git"
 
@@ -24,7 +25,9 @@ inherit autotools deploy pkgconfig
 COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
 
 PACKAGES =+ " \
+    ${PN}-kernel-stub \
     ${PN}-tools \
+    ${PN}-tools-secure-boot \
     ${PN}-tools-bash-completion \
     ${PN}-tools-zsh-completion \
 "
@@ -42,14 +45,28 @@ FILES:${PN}-tools-zsh-completion = " \
     ${datadir}/zsh/site-functions \
 "
 
+SUMMARY:${PN}-tools = "User space utilities bg_printenv bg_setenv"
 FILES:${PN}-tools = " \
-    ${bindir} \
+    ${bindir}/bg_printenv \
+    ${bindir}/bg_setenv \
 "
+
+SUMMARY:${PN}-tools-secure-boot = "Helper utility to create unified kernel images"
+FILES:${PN}-tools-secure-boot = " \
+    ${bindir}/bg_gen_unified_kernel \
+"
+RDEPENDS:${PN}-tools-secure-boot += "python3-core"
+
 FILES:${PN}-staticdev = "${libdir}/lib*.a"
 FILES:${PN}-dev = " \
     ${includedir}/${BPN} \
     ${libdir}/libebgenv.so \
+    ${libdir}/pkgconfig/*.pc \
 "
+
+SUMMARY:${PN}-kernel-stub = "A simple UEFI stub which allows to form unified kernel images"
+FILES:${PN}-kernel-stub += "${libdir}/efibootguard/kernel-stub*.efi"
+
 FILES:${PN} += " \
     ${libdir}/libebgenv-${PV}*.so \
 "
