@@ -4,11 +4,13 @@ A meta-layer for integration of `efibootguard` into a yocto project.
 
 ## Development ##
 
-Mailing list:  
-[efibootguard-dev@googlegroups.com](efibootguard-dev@googlegroups.com)
+You can contribute to the project via pull requests and the mailing list.
 
-Contribution:  
-- **Signed** patches can be sent to the mailing list.
+Contribution by PR (Pull Request)
+- https://github.com/siemens/meta-efibootguard/pulls
+
+Contribution by mailing list:
+- **Signed** patches can be sent to the mailing list [efibootguard-dev@googlegroups.com](efibootguard-dev@googlegroups.com).
 - The mailing list is used for "efibootguard" and "meta-efibootguard". Please use for patches the prefix "meta-efibootguard".
 ```
 git commit -s
@@ -20,13 +22,18 @@ Archive:
 
 ## status ##
 
-The current layer is compatible with the following Yocto version:
+The layer on master branch is compatible with the following Yocto version:
 
 Version  | Codename  | LTS
 -------- | --------- | ---
-3.5      | Kirkstone | Yes
+4.0      | Kirkstone | Yes
 3.4      | Honister  | No
 3.3      | Hardknott | No
+
+The layer on dunfell branch is compatible with the following Yocto version:
+
+Version  | Codename  | LTS
+-------- | --------- | ---
 3.1      | Dunfell   | Yes
 
 ## project integration ##
