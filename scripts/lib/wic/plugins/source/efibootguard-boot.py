@@ -46,6 +46,16 @@ class EfibootguardBootPlugin(SourcePlugin):
     name = 'efibootguard-boot'
 
     @classmethod
+    def _get_kernel_params(cls, source_params):
+        kernel_src = source_params.get("kernel", get_bitbake_var("KERNEL_IMAGETYPE"))
+        if ";" in kernel_src:
+            kernel_src, kernel_dst = kernel_src.split(";", 1)
+        else:
+            kernel_dst = kernel_src
+
+        return kernel_src, kernel_dst
+
+    @classmethod
     def do_configure_partition(cls, part, source_params, creator, cr_workdir,
                                oe_builddir, bootimg_dir, kernel_dir,
                                native_sysroot):
@@ -62,10 +72,13 @@ class EfibootguardBootPlugin(SourcePlugin):
         cmdline = "root=%s %s\n" % \
                    (creator.rootdev, bootloader.append)
 
+        _, kernel_dst = cls._get_kernel_params(source_params)
+
         cwd = os.getcwd()
         os.chdir(hdddir)
-        config_cmd = 'bg_setenv -f . -k "C:%s:bzImage" -a "%s" -r %s -w %s' % \
+        config_cmd = 'bg_setenv -f . -k "C:%s:%s" -a "%s" -r %s -w %s' % \
                       (part.label.upper(), \
+                       kernel_dst, \
                        cmdline.strip(), \
                        source_params.get("revision", 1), \
                        source_params.get("watchdog", 5))
@@ -91,8 +104,10 @@ class EfibootguardBootPlugin(SourcePlugin):
 
         hdddir = "%s/hdd/%s.%s" % (cr_workdir, part.label, part.lineno)
 
-        install_cmd = "install -m 0644 %s/bzImage %s/bzImage" % \
-            (staging_kernel_dir, hdddir)
+        kernel_src, kernel_dst = cls._get_kernel_params(source_params)
+
+        install_cmd = "install -m 0644 %s/%s %s/%s" % \
+            (staging_kernel_dir, kernel_src, hdddir, kernel_dst)
         exec_cmd(install_cmd)
 
         # Write label as utf-16le to EFILABEL file
