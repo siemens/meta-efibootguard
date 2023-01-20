@@ -14,15 +14,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 SUMMARY = "A bootloader based on UEFI"
 
 SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "eda1b987f8ca41d64b46f53347a8c89c6fc03c31"
+SRCREV = "b6f68012fae836b470606b53aaa46fe7871ff99b"
 
 S = "${WORKDIR}/git"
 
-DEPENDS:class-target = "gnu-efi pciutils zlib libcheck"
+DEPENDS:class-target = "gnu-efi pciutils zlib libcheck autoconf-archive"
 
 inherit autotools deploy pkgconfig
 
-COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
+COMPATIBLE_HOST = "(x86_64|i.86|arm|aarch64).*-linux"
 
 PACKAGES =+ " \
     ${PN}-kernel-stub \
@@ -76,7 +76,7 @@ do_deploy () {
 }
 addtask deploy before do_build after do_compile
 
-DEPENDS:class-native = "zlib-native libcheck-native"
+DEPENDS:class-native = "zlib-native libcheck-native autoconf-archive-native"
 EXTRA_OECONF:class-native = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                              --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
                              --with-gnuefi-lib-dir=${STAGING_LIBDIR} \
@@ -89,6 +89,7 @@ do_compile:class-native () {
 do_install:class-native () {
 	install -d ${D}${bindir}/
 	install -m755 ${B}/bg_setenv ${D}${bindir}/
+	install -m755 ${S}/tools/bg_gen_unified_kernel ${D}${bindir}/
 	ln -s bg_setenv ${D}${bindir}/bg_printenv
 }
 
