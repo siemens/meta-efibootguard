@@ -79,7 +79,7 @@ class EfibootguardBootPlugin(SourcePlugin):
         config_cmd = 'bg_setenv -f . -k "C:%s:%s" -a "%s" -r %s -w %s' % \
                       (part.label.upper(), \
                        kernel_dst, \
-                       cmdline.strip(), \
+                       source_params.get("args", cmdline.strip()), \
                        source_params.get("revision", 1), \
                        source_params.get("watchdog", 5))
 
