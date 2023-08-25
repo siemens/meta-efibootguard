@@ -1,0 +1,58 @@
+From 261e8c2d5b4d1455f90b2e306afab7ea3705fe27 Mon Sep 17 00:00:00 2001
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Date: Sat, 26 Aug 2023 10:42:28 +0200
+Subject: [PATCH] Use -mgeneral-regs-only whenever possible
+
+This obsoletes explicit no-sse/mmx and resolves build issue with custom
+toolchains on x86, plus it simplifies the setup.
+
+Along that, clarify why we need CFLAGS_MGENERAL_REGS_ONLY.
+
+Upstream-Status: Submitted [https://www.mail-archive.com/efibootguard-dev@googlegroups.com/msg01952.html]
+
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ Makefile.am  | 7 +------
+ configure.ac | 1 +
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index aefdada..02e9cac 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -216,18 +216,13 @@ efi_cflags = \
+ 	-Wsign-compare \
+ 	-DGNU_EFI_USE_MS_ABI \
+ 	-Werror \
++	$(CFLAGS_MGENERAL_REGS_ONLY) \
+ 	$(CFLAGS)
+ 
+ if ARCH_X86_64
+ efi_cflags += \
+-	-mno-sse \
+-	-mno-mmx \
+ 	-mno-red-zone
+ endif
+-if ARCH_ARM
+-efi_cflags += \
+-	$(CFLAGS_MGENERAL_REGS_ONLY)
+-endif
+ 
+ efi_ldflags = \
+ 	-T $(GNUEFI_LIB_DIR)/elf_$(ARCH)_efi.lds \
+diff --git a/configure.ac b/configure.ac
+index d448d71..b000603 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -111,6 +111,7 @@ AC_SUBST([ARCH])
+ AC_SUBST([MACHINE_TYPE_NAME])
+ AM_CONDITIONAL([ARCH_IS_X86], [test "$ARCH" = "ia32" -o "$ARCH" = "x86_64"])
+ 
++# -mgeneral-regs-only was introduced with gcc-9 to ARM, and RISCV64 does not support it until now
+ AX_CHECK_COMPILE_FLAG([-mgeneral-regs-only],
+ 	[CFLAGS_MGENERAL_REGS_ONLY=-mgeneral-regs-only],
+ 	[CFLAGS_MGENERAL_REGS_ONLY=])
+-- 
+2.30.2
+

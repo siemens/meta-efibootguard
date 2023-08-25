@@ -13,12 +13,14 @@ LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 SUMMARY = "A bootloader based on UEFI"
 
-SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master"
-SRCREV = "eda1b987f8ca41d64b46f53347a8c89c6fc03c31"
+SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master \
+    file://0001-Use-mgeneral-regs-only-whenever-possible.patch \
+"
+SRCREV = "cc0af9b91e84c15f8cc7acc42df8f2dc595892c2"
 
 S = "${WORKDIR}/git"
 
-DEPENDS:class-target = "gnu-efi pciutils zlib libcheck"
+DEPENDS:class-target = "gnu-efi pciutils zlib libcheck autoconf-archive"
 
 inherit autotools deploy pkgconfig
 
@@ -76,7 +78,7 @@ do_deploy () {
 }
 addtask deploy before do_build after do_compile
 
-DEPENDS:class-native = "zlib-native libcheck-native"
+DEPENDS:class-native = "zlib-native libcheck-native autoconf-archive"
 EXTRA_OECONF:class-native = "--with-gnuefi-sys-dir=${STAGING_DIR_HOST} \
                              --with-gnuefi-include-dir=${STAGING_INCDIR}/efi \
                              --with-gnuefi-lib-dir=${STAGING_LIBDIR} \
