@@ -26,9 +26,8 @@ The layer on master branch is compatible with the following Yocto version:
 
 Version  | Codename  | LTS
 -------- | --------- | ---
+5.0      | Scarthgap | Yes
 4.0      | Kirkstone | Yes
-3.4      | Honister  | No
-3.3      | Hardknott | No
 
 The layer on dunfell branch is compatible with the following Yocto version:
 

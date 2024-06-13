@@ -14,9 +14,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 SUMMARY = "A bootloader based on UEFI"
 
 SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master \
-    file://0001-Use-mgeneral-regs-only-whenever-possible.patch \
 "
-SRCREV = "cc0af9b91e84c15f8cc7acc42df8f2dc595892c2"
+SRCREV = "5670b96bffc24e5e23eea5619e1233396f5408e5"
 
 S = "${WORKDIR}/git"
 
