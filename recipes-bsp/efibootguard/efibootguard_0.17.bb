@@ -18,8 +18,6 @@ SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=mas
 "
 SRCREV = "5670b96bffc24e5e23eea5619e1233396f5408e5"
 
-S = "${WORKDIR}/git"
-
 DEPENDS:class-target = "gnu-efi pciutils zlib libcheck autoconf-archive"
 
 inherit autotools deploy pkgconfig
