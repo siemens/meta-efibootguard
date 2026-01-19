@@ -130,7 +130,7 @@ class EfibootguardBootPlugin(SourcePlugin):
         bootimg = "%s/%s.%s.img" % (cr_workdir, part.label, part.lineno)
 
         dosfs_cmd = "mkdosfs -F 16 -n %s -C %s %d" % (part.label.upper(), \
-                    bootimg, blocks) 
+                    bootimg, blocks)
 
         exec_native_cmd(dosfs_cmd, native_sysroot)
 
