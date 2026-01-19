@@ -19,7 +19,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 # DESCRIPTION
-# This implements the 'efibootguard-efi' source plugin class for 'wic'
+# This implements the 'efibootguard-boot' source plugin class for 'wic'
 #
 # AUTHORS
 # Tom Zanussi <tom.zanussi (at] linux.intel.com>
@@ -37,13 +37,41 @@ from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
 
 msger = logging.getLogger('wic')
 
-class EfibootguardEFIPlugin(SourcePlugin):
+class EfibootguardBootPlugin(SourcePlugin):
     """
-    Create EFI partition.
-    This plugin supports the efibootguard bootloader.
+    Create boot partition.
+    This plugin supports efibootguard bootloader.
     """
 
-    name = 'efibootguard-efi'
+    name = 'efibootguard_boot'
+
+    @classmethod
+    def do_configure_partition(cls, part, source_params, creator, cr_workdir,
+                               oe_builddir, bootimg_dir, kernel_dir,
+                               native_sysroot):
+        """
+        Called before do_prepare_partition(), creates loader-specific config
+        """
+        hdddir = "%s/hdd/%s.%s" % (cr_workdir, part.label, part.lineno)
+
+        install_cmd = "install -d %s" % hdddir
+        exec_cmd(install_cmd)
+
+        bootloader = creator.ks.bootloader
+
+        cmdline = "root=%s %s\n" % \
+                   (creator.rootdev, bootloader.append)
+
+        cwd = os.getcwd()
+        os.chdir(hdddir)
+        config_cmd = 'bg_setenv -f . -k "C:%s:bzImage" -a "%s" -r %s -w %s' % \
+                      (part.label.upper(), \
+                       cmdline.strip(), \
+                       source_params.get("revision", 1), \
+                       source_params.get("watchdog", 5))
+
+        exec_native_cmd(config_cmd, native_sysroot)
+        os.chdir(cwd)
 
     @classmethod
     def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
@@ -63,26 +91,31 @@ class EfibootguardEFIPlugin(SourcePlugin):
 
         hdddir = "%s/hdd/%s.%s" % (cr_workdir, part.label, part.lineno)
 
-        install_cmd = "install -d %s/EFI/BOOT" % hdddir
+        install_cmd = "install -m 0644 %s/bzImage %s/bzImage" % \
+            (staging_kernel_dir, hdddir)
         exec_cmd(install_cmd)
 
-        # Locate & install the efibootguard bootloader properly to the EFI partition
-        # i586 ARCH:    efibootguardia32.efi ---> bootia32.efi
-        # x86_64 ARCH:  efibootguardx64.efi  ---> bootx64.efi
-        for mod in [x for x in os.listdir(kernel_dir) if x.startswith("efibootguard")]:
-            # mod = efibootguardia32.efi or efibootguardx64.efi
-            # efi_image = bootia32.efi or bootx64.efi
-            efi_image = mod.replace('efibootguard', 'boot')
-            cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, efi_image)
+        # Write label as utf-16le to EFILABEL file
+        fd = open("%s/EFILABEL" % hdddir, 'wb')
+        fd.write(part.label.upper().encode("utf-16le"))
+        fd.close()
+
+        # Copy the specified initrd to the BOOT partition
+        initrd = source_params.get('initrd')
+
+        if initrd:
+            cp_cmd = "cp %s/%s %s" % (kernel_dir, initrd, hdddir)
             exec_cmd(cp_cmd, True)
 
-        # Calculate the number of extra blocks to be sure that the
-        # resulting partition image is of the wanted size
+        else:
+            msger.debug("Ignoring missing initrd")
 
         du_cmd = "du -bks %s" % hdddir
         out = exec_cmd(du_cmd)
         blocks = int(out.split()[0])
 
+        # Calculate number of extra blocks to be sure that the resulting
+        # partition image has the wanted size.
         extra_blocks = part.get_extra_block_count(blocks)
 
         if extra_blocks < BOOTDD_EXTRA_SPACE:
@@ -94,20 +127,22 @@ class EfibootguardEFIPlugin(SourcePlugin):
                     (extra_blocks, part.mountpoint, blocks))
 
         # dosfs image, created by mkdosfs
-        efiimg = "%s/%s.%s.img" % (cr_workdir, part.label, part.lineno)
+        bootimg = "%s/%s.%s.img" % (cr_workdir, part.label, part.lineno)
 
-        dosfs_cmd = "mkdosfs -n %s -C %s %d" % (part.label.upper(), efiimg, blocks)
+        dosfs_cmd = "mkdosfs -F 16 -n %s -C %s %d" % (part.label.upper(), \
+                    bootimg, blocks) 
+
         exec_native_cmd(dosfs_cmd, native_sysroot)
 
-        mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (efiimg, hdddir)
+        mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
         exec_native_cmd(mcopy_cmd, native_sysroot)
 
-        chmod_cmd = "chmod 644 %s" % efiimg
+        chmod_cmd = "chmod 644 %s" % bootimg
         exec_cmd(chmod_cmd)
 
-        du_cmd = "du -Lbks %s" % efiimg
+        du_cmd = "du -Lbks %s" % bootimg
         out = exec_cmd(du_cmd)
-        efiimg_size = out.split()[0]
+        bootimg_size = out.split()[0]
 
-        part.size = int(efiimg_size)
-        part.source_file = efiimg
+        part.size = int(bootimg_size)
+        part.source_file = bootimg

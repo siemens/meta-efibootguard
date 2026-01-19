@@ -55,7 +55,7 @@ EFI_PROVIDER="efibootguard"
 # using efibootguard, that the user can directly dd to boot media.
 
 # EFI partition containing efibootguard
-part --source efibootguard-efi --size 32 --extra-space 0 --overhead-factor 1 --ondisk mmcblk0 --label efi --part-type=EF00 --align 1024
+part --source efibootguard_efi --size 32 --extra-space 0 --overhead-factor 1 --ondisk mmcblk0 --label efi --part-type=EF00 --align 1024
 
 # Two root partitions for updateability, leave away 2nd if not used
 part / --source rootfs --size 1024 --extra-space 0 --overhead-factor 1 --ondisk mmcblk0 --fstype=ext4 --label platform0 --align 1024
