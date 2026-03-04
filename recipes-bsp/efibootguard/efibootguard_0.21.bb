@@ -14,9 +14,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 SUMMARY = "A bootloader based on UEFI"
 
 SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master \
-    file://0001-fix-use-correct-order-of-calloc-parameters.patch \
+    file://0001-Adapt-to-objcopy-stricter-target-checking.patch \
 "
-SRCREV = "5670b96bffc24e5e23eea5619e1233396f5408e5"
+SRCREV = "469cabb97d36ebc868b1dac0aa2acaa8274a31a7"
 
 DEPENDS:class-target = "gnu-efi pciutils zlib libcheck autoconf-archive"
 
