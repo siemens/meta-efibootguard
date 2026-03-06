@@ -19,7 +19,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 # DESCRIPTION
-# This implements the 'efibootguard-efi' source plugin class for 'wic'
+# This implements the 'efibootguard_efi' source plugin class for 'wic'
 #
 # AUTHORS
 # Tom Zanussi <tom.zanussi (at] linux.intel.com>
@@ -43,7 +43,7 @@ class EfibootguardEFIPlugin(SourcePlugin):
     This plugin supports the efibootguard bootloader.
     """
 
-    name = 'efibootguard-efi'
+    name = 'efibootguard_efi'
 
     @classmethod
     def do_prepare_partition(cls, part, source_params, creator, cr_workdir,

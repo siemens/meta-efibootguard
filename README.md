@@ -26,9 +26,8 @@ meta-efibootguard is compatible with the following Yocto versions:
 
 Yocto Version  | Codename  | meta-efibootguard branch | LTS
 -------------- | --------- | ------------------------ | ---
-6.0            | Wrynose   | -                        | Yes
+6.0            | Wrynose   | master                   | Yes
 5.0            | Scarthgap | scarthgap                | Yes
-4.0            | Kirkstone | kirkstone                | Yes
 
 ## project integration ##
 
@@ -55,7 +54,7 @@ EFI_PROVIDER="efibootguard"
 # using efibootguard, that the user can directly dd to boot media.
 
 # EFI partition containing efibootguard
-part --source efibootguard-efi --size 32 --extra-space 0 --overhead-factor 1 --ondisk mmcblk0 --label efi --part-type=EF00 --align 1024
+part --source efibootguard_efi --size 32 --extra-space 0 --overhead-factor 1 --ondisk mmcblk0 --label efi --part-type=c12a7328-f81f-11d2-ba4b-00a0c93ec93b --align 1024
 
 # Two root partitions for updateability, leave away 2nd if not used
 part / --source rootfs --size 1024 --extra-space 0 --overhead-factor 1 --ondisk mmcblk0 --fstype=ext4 --label platform0 --align 1024
