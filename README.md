@@ -22,18 +22,13 @@ Archive:
 
 ## status ##
 
-The layer on master branch is compatible with the following Yocto version:
+meta-efibootguard is compatible with the following Yocto versions:
 
-Version  | Codename  | LTS
--------- | --------- | ---
-5.0      | Scarthgap | Yes
-4.0      | Kirkstone | Yes
-
-The layer on dunfell branch is compatible with the following Yocto version:
-
-Version  | Codename  | LTS
--------- | --------- | ---
-3.1      | Dunfell   | Yes
+Yocto Version  | Codename  | meta-efibootguard branch | LTS
+-------------- | --------- | ------------------------ | ---
+6.0            | Wrynose   | -                        | Yes
+5.0            | Scarthgap | scarthgap                | Yes
+4.0            | Kirkstone | kirkstone                | Yes
 
 ## project integration ##
 
