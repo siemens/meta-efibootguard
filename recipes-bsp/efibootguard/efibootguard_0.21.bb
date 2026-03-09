@@ -73,6 +73,11 @@ FILES:${PN} += " \
 
 do_deploy () {
 	install ${B}/efibootguard*.efi ${DEPLOYDIR}
+
+    # Deploy kernel stub files
+    if [ -f ${B}/kernel-stub*.efi ]; then
+        install ${B}/kernel-stub*.efi ${DEPLOYDIR}
+    fi
 }
 addtask deploy before do_build after do_compile
 
