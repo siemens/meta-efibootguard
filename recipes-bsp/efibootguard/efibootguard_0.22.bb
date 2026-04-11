@@ -13,10 +13,8 @@ LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 SUMMARY = "A bootloader based on UEFI"
 
-SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master;tag=v${PV} \
-    file://0001-Adapt-to-objcopy-stricter-target-checking.patch \
-"
-SRCREV = "469cabb97d36ebc868b1dac0aa2acaa8274a31a7"
+SRC_URI = "gitsm://github.com/siemens/efibootguard.git;protocol=https;branch=master;tag=v${PV} "
+SRCREV = "d5ad3990f266c632dbd98a1606ff0d054dee672b"
 
 DEPENDS:class-target = "gnu-efi pciutils zlib libcheck autoconf-archive"
 
