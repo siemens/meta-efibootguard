@@ -24,6 +24,7 @@ DEPENDS:class-target = "gnu-efi pciutils zlib libcheck autoconf-archive"
 inherit autotools deploy pkgconfig
 
 COMPATIBLE_HOST = "(x86_64.*|i.86.*)-linux"
+COMPATIBLE_HOST:append:class-native = "|aarch64.*-linux"
 
 PACKAGES =+ " \
     ${PN}-kernel-stub \
