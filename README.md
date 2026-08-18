@@ -72,4 +72,11 @@ part swap --ondisk mmcblk0 --size 512 --fstype=swap --label swap --align 1024
 bootloader --ptable gpt --append="console=ttyS1,115200n8 reboot=efi,warm rw debugshell=5 rootwait"
 ```
 
+*NOTE*: The `args` source parameter of the `efibootguard-boot` plugin can be
+used to override the kernel command-line arguments per boot partition. When set,
+it replaces the default command line (maps to `bg_setenv --args`):
+```
+part --source efibootguard-boot --size 32 --ondisk mmcblk0 --label boot0 --align 1024 --part-type=0700 --sourceparams "watchdog=60,revision=2,args=root=/dev/mmcblk0p2 console=ttyS0 rw"
+```
+
 *NOTE*: The `--append` option to the bootloader gives kernel parameters that are written into the efibootguard environment file.
