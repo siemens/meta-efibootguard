@@ -26,7 +26,7 @@ meta-efibootguard is compatible with the following Yocto versions:
 
 Yocto Version  | Codename  | meta-efibootguard branch | LTS
 -------------- | --------- | ------------------------ | ---
-6.x            | Wrynose   | master                   | Yes
+6.x            | Blacksail | master                   | No
 6.0            | Wrynose   | wrynose                  | Yes
 5.0            | Scarthgap | scarthgap                | Yes
 
