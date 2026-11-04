@@ -29,8 +29,11 @@ efi_populate() {
         elif [ "${TARGET_ARCH}" = "x86_64" ]; then
             EFI_IMAGE="efibootguardx64.efi"
             DEST_EFI_IMAGE="bootx64.efi"
+        elif [ "${TARGET_ARCH}" = "aarch64" ]; then
+            EFI_IMAGE="efibootguardaa64.efi"
+            DEST_EFI_IMAGE="bootaa64.efi"
         else
-            bbfatal "Invalid target architecture for efibootguard: ${TARGET_ARCH}. Only i586 and x86_64 are supported."
+            bbfatal "Invalid target architecture for efibootguard: ${TARGET_ARCH}. Only i586, x86_64, and aarch64 are supported."
         fi
         install -d ${DEST}${EFIDIR}
         install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_IMAGE} ${DEST}${EFIDIR}/${DEST_EFI_IMAGE}
